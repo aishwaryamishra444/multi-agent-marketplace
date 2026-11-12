@@ -27,10 +27,14 @@ models:
     model: claude-sonnet-4-5
 
   # --- Google ---
-  gemini-2.5-flash:
+  gemini-2.5-flash:      # the paper's model; Google no longer offers it to new API users
     provider: gemini
     model: gemini-2.5-flash
     max_concurrency: 8   # upstream lowers concurrency for Gemini
+  gemini-3.8-flash:      # current Flash model, for accounts without 2.5 access
+    provider: gemini
+    model: gemini-3.8-flash
+    max_concurrency: 8
 
   # --- Self-hosted via vLLM (OpenAI-compatible endpoint) ---
   # Start vLLM with e.g.:  vllm serve Qwen/Qwen3-14B --port 8001
