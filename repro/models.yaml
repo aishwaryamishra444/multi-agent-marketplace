@@ -1,0 +1,51 @@
+# Model registry for the reproduction.
+#
+# Each key is a short name used on the command line (--models) and in output
+# file names. Values set the environment variables that Magentic Marketplace's
+# LLM clients read (LLM_PROVIDER, LLM_MODEL, OPENAI_BASE_URL, ...).
+#
+# ${VAR} is expanded from your environment / .env at run time.
+
+models:
+  # --- OpenAI (closest to the paper's own setup) ---
+  gpt-5-nano:            # cheap model for smoke tests
+    provider: openai
+    model: gpt-5-nano
+  gpt-4o:
+    provider: openai
+    model: gpt-4o
+  gpt-4.1:
+    provider: openai
+    model: gpt-4.1
+  gpt-5:
+    provider: openai
+    model: gpt-5
+
+  # --- Anthropic ---
+  claude-sonnet-4-5:
+    provider: anthropic
+    model: claude-sonnet-4-5
+
+  # --- Google ---
+  gemini-2.5-flash:
+    provider: gemini
+    model: gemini-2.5-flash
+    max_concurrency: 8   # upstream lowers concurrency for Gemini
+
+  # --- Self-hosted via vLLM (OpenAI-compatible endpoint) ---
+  # Start vLLM with e.g.:  vllm serve Qwen/Qwen3-14B --port 8001
+  qwen3-14b:
+    provider: openai
+    model: Qwen/Qwen3-14B
+    base_url: ${VLLM_BASE_URL}
+    api_key: ${VLLM_API_KEY}
+  qwen3-4b:
+    provider: openai
+    model: Qwen/Qwen3-4B-Instruct-2507
+    base_url: ${VLLM_BASE_URL}
+    api_key: ${VLLM_API_KEY}
+  gpt-oss-20b:
+    provider: openai
+    model: openai/gpt-oss-20b
+    base_url: ${VLLM_BASE_URL}
+    api_key: ${VLLM_API_KEY}

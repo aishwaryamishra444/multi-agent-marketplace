@@ -1,5 +1,7 @@
 # Magentic Marketplace
 
+> **About this fork.** This fork reproduces the paper's experiments across OpenAI, Anthropic, Gemini and self-hosted vLLM models. See [`repro/README.md`](repro/README.md). All simulation code below is Microsoft's original work (MIT licence).
+
 [Documentation](https://microsoft.github.io/multi-agent-marketplace/) | [Paper](https://arxiv.org/abs/2510.25779)
 
 
