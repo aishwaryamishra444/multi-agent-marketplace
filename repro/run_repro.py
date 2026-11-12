@@ -43,6 +43,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 MODELS_FILE = REPO_ROOT / "repro" / "models.yaml"
 SUMMARY_CSV = REPO_ROOT / "results" / "summary.csv"
 
+# Make the upstream package importable even if its editable install isn't picked
+# up (seen on macOS with Anaconda Python, where the venv's .pth file can be skipped).
+_UPSTREAM_SRC = REPO_ROOT / "packages" / "magentic-marketplace" / "src"
+if _UPSTREAM_SRC.is_dir() and str(_UPSTREAM_SRC) not in sys.path:
+    sys.path.insert(0, str(_UPSTREAM_SRC))
+
 SUMMARY_FIELDS = [
     "timestamp",
     "experiment",
