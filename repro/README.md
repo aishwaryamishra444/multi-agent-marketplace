@@ -48,6 +48,9 @@ export VLLM_BASE_URL="http://localhost:8001/v1"
 export VLLM_API_KEY="dummy"
 ```
 
+To run Qwen3-4B on a laptop without a GPU server, install [Ollama](https://ollama.com), run `ollama pull qwen3:4b`,
+and use `--models qwen3-4b-ollama`. It is free but slow.
+
 For self-hosted models, start vLLM first, for example `vllm serve Qwen/Qwen3-14B --port 8001`.
 Model names and endpoints live in [`models.yaml`](models.yaml); add a model there to use it.
 
@@ -74,8 +77,14 @@ The full grid is 26 conditions: 130 runs per model at 5 runs each. Check the cos
 ## Results
 
 ```bash
-uv run repro/summarize.py
+uv run repro/summarize.py          # welfare table across runs
+uv run repro/view_run.py           # newest run as readable conversations
+uv run repro/view_run.py path/to/run.db --customer customer_0001
 ```
+
+`view_run.py` prints each customer's goal, searches, messages, proposals and payments in order,
+then how the run ended for them, scored the same way as the upstream analytics. It also saves
+the transcript as `<run>.transcript.md` next to the database.
 
 * `results/summary.csv`: one row per run (customer welfare, needs met, LLM calls, failures).
 * `results/summary.md`: mean ± standard deviation per model and condition.

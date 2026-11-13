@@ -53,3 +53,13 @@ models:
     model: openai/gpt-oss-20b
     base_url: ${VLLM_BASE_URL}
     api_key: ${VLLM_API_KEY}
+
+  # --- Local on a laptop via Ollama (free, slow; no GPU server needed) ---
+  # Install from ollama.com, then:  ollama pull qwen3:4b
+  # If you pull a different tag (see ollama.com/library/qwen3), change `model` below to match.
+  qwen3-4b-ollama:
+    provider: openai
+    model: qwen3:4b
+    base_url: http://localhost:11434/v1
+    api_key: ollama
+    max_concurrency: 2
