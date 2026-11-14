@@ -301,6 +301,10 @@ async def run_one(exp: Experiment, cond: Condition, model_key: str, cfg: dict, r
     from magentic_marketplace.experiments.run_analytics import run_analytics
     from magentic_marketplace.experiments.run_experiment import run_marketplace_experiment
 
+    import ollama_patch  # repro/ is on sys.path when this script runs
+
+    ollama_patch.apply()
+
     clean = clean_model_name(model_key)
     export_dir = REPO_ROOT / exp.export_dir
     export_dir.mkdir(parents=True, exist_ok=True)
