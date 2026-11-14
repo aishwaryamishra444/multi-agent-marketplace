@@ -49,7 +49,8 @@ export VLLM_API_KEY="dummy"
 ```
 
 To run Qwen3-4B on a laptop without a GPU server, install [Ollama](https://ollama.com), run `ollama pull qwen3:4b`,
-and use `--models qwen3-4b-ollama`. It is free but slow.
+and use `--models qwen3-4b-ollama`. It is free but slow. For the exact model the paper used (no thinking step, faster), run
+`ollama pull hf.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M` and use `--models qwen3-4b-instruct-ollama`.
 
 For self-hosted models, start vLLM first, for example `vllm serve Qwen/Qwen3-14B --port 8001`.
 Model names and endpoints live in [`models.yaml`](models.yaml); add a model there to use it.
