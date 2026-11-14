@@ -68,10 +68,10 @@ models:
     max_concurrency: 2
 
   # Same as the paper's Qwen3-4B-Instruct-2507 (no "thinking" step, so much faster than qwen3:4b).
-  # Download once with:  ollama pull hf.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M
+  # Download once with:  ollama pull hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M
   qwen3-4b-instruct-ollama:
     provider: openai
-    model: hf.co/lmstudio-community/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M
+    model: hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M
     base_url: http://localhost:11434/v1
     api_key: ollama
     max_concurrency: 2
