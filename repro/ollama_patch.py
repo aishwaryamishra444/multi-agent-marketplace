@@ -16,6 +16,7 @@ Every other provider and model is untouched.
 
 from __future__ import annotations
 
+import json
 import os
 from typing import Any
 
@@ -49,6 +50,42 @@ def _plain_message(message: Any) -> dict[str, str]:
     if role not in ("system", "user", "assistant", "tool"):
         role = "user"
     return {"role": role, "content": str(content)}
+
+
+_DROP_KEYS = {"title", "description", "default", "examples"}
+
+
+def _grammar_schema(schema: dict) -> dict:
+    """Inline $refs and drop annotation-only keys so Ollama can turn it into a grammar."""
+    defs = schema.get("$defs", {})
+
+    def walk(node):
+        if isinstance(node, dict):
+            if "$ref" in node:
+                name = node["$ref"].split("/")[-1]
+                return walk(defs[name])
+            out = {}
+            for k, v in node.items():
+                if k in _DROP_KEYS or k == "$defs":
+                    continue
+                if k == "const":
+                    out["enum"] = [v]
+                    continue
+                out[k] = walk(v)
+            return out
+        if isinstance(node, list):
+            return [walk(x) for x in node]
+        return node
+
+    return walk(schema)
+
+
+def _schema_instruction(schema: dict) -> dict[str, str]:
+    return {
+        "role": "system",
+        "content": "Reply with only one JSON object that matches this JSON schema, using exactly "
+        "these field names, with no other text before or after it:\n" + json.dumps(schema),
+    }
 
 
 def apply() -> None:
@@ -98,7 +135,11 @@ def apply() -> None:
             "options": options,
         }
         if response_format is not None:
-            body["format"] = response_format.model_json_schema()
+            full_schema = response_format.model_json_schema()
+            body["format"] = _grammar_schema(full_schema)
+            # Small local models need the schema spelled out; OpenAI's structured output
+            # likewise gives the model the schema, so this keeps the setups comparable.
+            body["messages"] = body["messages"] + [_schema_instruction(full_schema)]
 
         errors: list[str] = []
         attempts = 3 if response_format is not None else 1
@@ -125,7 +166,7 @@ def apply() -> None:
                         {
                             "role": "user",
                             "content": f"That reply did not match the required JSON schema: {e}. "
-                            "Reply again with only the JSON object.",
+                            "Reply again with only the JSON object, using the exact field names in the schema.",
                         },
                     ]
         raise RuntimeError(
