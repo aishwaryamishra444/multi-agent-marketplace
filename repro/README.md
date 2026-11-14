@@ -71,6 +71,9 @@ uv run repro/run_repro.py --experiments all --models gpt-4.1 claude-sonnet-4-5 g
 uv run repro/run_repro.py --experiments manipulation --models gpt-4o --conditions prompt_injection
 ```
 
+For cheaper development runs, `welfare-small` repeats the welfare experiment on the
+10-customer, 30-business markets; it is not one of the paper's settings.
+
 Runs are resumable: a finished run is skipped, and a failed run is retried next time.
 The full grid is 26 conditions: 130 runs per model at 5 runs each. Check the cost of a 1-run pass before running everything.
 

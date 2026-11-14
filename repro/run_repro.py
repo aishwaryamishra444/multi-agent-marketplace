@@ -140,6 +140,19 @@ EXPERIMENTS: dict[str, Experiment] = {
             for algo in ("lexical", "optimal")
         ),
     ),
+    "welfare-small": Experiment(
+        name="welfare-small",
+        description="Welfare experiment on the 10-customer, 30-business markets (cheaper development runs)",
+        export_dir="paper_experiments/welfare_small/results",
+        conditions=tuple(
+            Condition(f"{label}_{algo}", path, algo, 10)
+            for label, path in (
+                ("mexican_10_30", "data/mexican_10_30"),
+                ("contractors_10_30", "data/contractors/contractors_10_30"),
+            )
+            for algo in ("lexical", "optimal")
+        ),
+    ),
     "search": Experiment(
         name="search",
         description="Consideration-set size (search results shown) vs welfare",
