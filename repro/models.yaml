@@ -75,3 +75,14 @@ models:
     base_url: http://localhost:11434/v1
     api_key: ollama
     max_concurrency: 2
+
+  # Local via LM Studio (lmstudio.ai). Unlike Ollama, LM Studio enforces the JSON schema the
+  # agents need through the standard OpenAI API, so upstream code runs unchanged.
+  # In LM Studio: download "qwen/qwen3-4b-2507", load it with context length 8192,
+  # then start the server (Developer tab) on port 1234.
+  qwen3-4b-instruct-lmstudio:
+    provider: openai
+    model: qwen/qwen3-4b-2507
+    base_url: http://localhost:1234/v1
+    api_key: lm-studio
+    max_concurrency: 2

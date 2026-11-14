@@ -53,6 +53,9 @@ and use `--models qwen3-4b-ollama`. It is free but slow. For the exact model the
 `ollama pull hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M` and use `--models qwen3-4b-instruct-ollama`.
 Ollama models are called through Ollama's native API with the response schema enforced
 and an 8k context window (`repro/ollama_patch.py`); set `OLLAMA_NUM_CTX` to change it.
+In testing, Ollama 0.30 ignored the schema for this model, so the recommended local option is
+[LM Studio](https://lmstudio.ai): load `qwen/qwen3-4b-2507` with an 8192 context, start its server
+on port 1234, and use `--models qwen3-4b-instruct-lmstudio`.
 
 For self-hosted models, start vLLM first, for example `vllm serve Qwen/Qwen3-14B --port 8001`.
 Model names and endpoints live in [`models.yaml`](models.yaml); add a model there to use it.
